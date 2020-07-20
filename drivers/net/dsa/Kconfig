@@ -78,6 +78,12 @@ config NET_DSA_REALTEK_SMI
 	  This enables support for the Realtek SMI-based switch
 	  chips, currently only RTL8366RB.
 
+config NET_DSA_RTL_8363
+	tristate "Realtek 8363 Switch"
+	depends on NET_DSA
+	---help---
+	  This enables support for realtek 8363nb 3-port ethernet switch
+
 config NET_DSA_SMSC_LAN9303
 	tristate
 	select NET_DSA_TAG_LAN9303

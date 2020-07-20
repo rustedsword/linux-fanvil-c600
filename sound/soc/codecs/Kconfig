@@ -679,6 +679,20 @@ config SND_SOC_CX2072X
 	help
 	  Enable support for Conexant CX20721 and CX20723 codec chips.
 
+config SND_SOC_CX2070X
+	tristate "Conexant CX2070X Codec"
+	help
+	  Enable support for Conexant CX2070x codec family.
+
+	  Currently only CX20707 is supported.
+
+config SND_SOC_CX2070X_I2C
+	tristate "Conexant CX2070X Codec via I2C"
+	depends on I2C
+	select SND_SOC_CX2070X
+	help
+	  Enable support for Conexant CX2070x codec family via I2C
+
 config SND_SOC_JZ4740_CODEC
 	depends on MIPS || COMPILE_TEST
 	select REGMAP_MMIO

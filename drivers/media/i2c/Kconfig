@@ -615,6 +615,17 @@ config VIDEO_IMX258
 	  To compile this driver as a module, choose M here: the
 	  module will be called imx258.
 
+config VIDEO_NT99141
+	tristate "Novatek NT99141 image sensor"
+	depends on OF
+	depends on GPIOLIB && VIDEO_V4L2 && I2C && VIDEO_V4L2_SUBDEV_API
+	depends on MEDIA_CAMERA_SUPPORT
+	select V4L2_FWNODE
+	---help---
+	  This is driver for Novatek nt99141 HD image sensor
+
+	  Driver will be called nt99141.ko if you choose M here.
+
 config VIDEO_IMX274
 	tristate "Sony IMX274 sensor support"
 	depends on I2C && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API

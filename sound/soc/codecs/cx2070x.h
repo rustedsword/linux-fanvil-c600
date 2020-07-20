@@ -1,0 +1,176 @@
+#ifndef __CX2070X_H__
+#define __CX2070X_H__
+
+extern const struct regmap_config cx2070x_regmap;
+int cx2070x_probe(struct device *dev, struct regmap *regmap);
+
+#define NUM_OF_DAI		2
+#define DAI_DP1_NAME		"cx2070x"
+#define DAI_DP2_NAME		"cx2070x-dp2"
+#define CAPTURE_STREAM_NAME_1	"Capture"
+#define PLAYBACK_STREAM_NAME_1	"Playback"
+#define CAPTURE_STREAM_NAME_2	"Capture-dp2"
+#define PLAYBACK_STREAM_NAME_2	"Playback-dp2"
+
+#define CX2070X_REG_MAX		0x1600
+
+#define CXREG_USB_LOCAL_VOLUME	0x004E
+#define CXREG_UPDATE_AL		0x02FC
+#define CXREG_UPDATE_AM		0x02FD
+#define CXREG_UPDATE_AH		0x02FE
+#define CXREG_UPDATE_LEN	0x02FF
+#define CXREG_UPDATE_BUFF	0x0300
+#define CXREG_UPDATE_CTR	0x0400
+#define CXREG_CLOCK_DIVIDER	0x0F50
+#define CX_CLKDIV_PORT1_MASK	(0xf << 0)
+#define CX_CLKDIV_PORT2_MASK	(0xf << 4)
+#define CXREG_PORT1_CONTROL	0x0f51
+#define CXREG_PORT1_TX_FRAME	0x0f52
+#define CXREG_PORT1_RX_FRAME	0x0f53
+#define CXREG_PORT1_TX_SYNC	0x0f54
+#define CXREG_PORT1_RX_SYNC	0x0f55
+#define CXREG_PORT1_CONTROL2	0x0f56
+#define CXREG_PORT1_RX_SLOT1	0x0f57
+#define CXREG_PORT1_RX_SLOT2	0x0f58
+#define CXREG_PORT1_RX_SLOT3	0x0f59
+#define CXREG_PORT1_TX_SLOT1	0x0f5A
+#define CXREG_PORT1_TX_SLOT2	0x0f5B
+#define CXREG_PORT1_TX_SLOT3	0x0f5C
+#define CXREG_PORT1_DELAY	0x0F5D
+#define CXREG_PORT2_CONTROL	0x0f5e
+#define CXREG_PORT2_FRAME	0x0f5f
+#define CXREG_PORT2_SYNC	0x0f60
+#define CXREG_PORT2_SAMPLE	0x0f61
+#define CXREG_PORT2_RX_SLOT1	0x0f62
+#define CXREG_PORT2_RX_SLOT2	0x0f63
+#define CXREG_PORT2_TX_SLOT1	0x0f65
+#define CXREG_PORT2_TX_SLOT2	0x0f66
+
+/* Firmware registers */
+#define CXREG_ABCODE		0x1000
+#define CXREG_FIRMWARE_VER_LO	0x1001
+#define CXREG_FIRMWARE_VER_HI	0x1002
+#define CXREG_PATCH_VER_LO	0x1003
+#define CXREG_PATCH_VER_HI	0x1004
+#define CXREG_CHIP_VERSION	0x1005
+#define CXREG_RELEASE_TYPE	0x1006
+
+/* This register controls at least 3 gpios
+ * looks like by default they are in input mode
+ * and any writes to bits 2,3,4 are ignored.
+ *
+ * to enable output gpio mode unset bits 5,6,7
+ * for gpios 0,1,2
+ *
+ * purpose of first two bits is unknown yet =( */
+#define CXREG_GPIO_CONTROL	0x1007
+#define CX_GPIO_0_SHIFT	2
+#define CX_GPIO_1_SHIFT 3
+#define CX_GPIO_2_SHIFT	4
+#define CX_GPIO_0_MODE_SHIFT 5
+#define CX_GPIO_1_MODE_SHIFT 6
+#define CX_GPIO_2_MODE_SHIFT 7
+
+#define CXREG_GPIO_DIRECTION    0x1008
+#define CXREG_DAC1_GAIN		0x100d
+#define CXREG_DAC2_GAIN		0x100e
+#define CXREG_DSPDAC		0x1010
+#define CXREG_CLASSD_GAIN	0x1011
+#define CXREG_DAC3_GAIN		0x1012
+#define CXREG_ADC1L_GAIN	0X1013
+#define CXREG_ADC1R_GAIN	0X1014
+#define CXREG_ADC2L_GAIN	0X1015
+#define CXREG_ADC2R_GAIN	0X1016
+
+#define CXREG_VOLUME_MUTE	0x1018
+#define CX_MUTE_SPEAKER_R_SHIFT 0
+#define CX_MUTE_SPEAKER_L_SHIFT 1
+#define CX_MUTE_MONO_SHIFT      2
+#define CX_MUTE_MIC_R_SHIFT     3
+#define CX_MUTE_MIC_L_SHIFT     4
+#define CX_MUTE_AUX_R_SHIFT     5
+#define CX_MUTE_AUX_L_SHIFT     6
+
+#define CXREG_OUTPUT_CONTROL	0x1019
+#define CX_OUTPUT_HP_SHIFT		0
+#define CX_OUTPUT_LO_SHIFT		1
+#define CX_OUTPUT_SPEAKER_SHIFT		2
+#define CX_OUTPUT_CLASSD_MONO_SHIFT	3
+#define CX_OUTPUT_CLASSD_PWM_SHIFT	4
+#define CX_OUTPUT_LO_DIFF_SHIFT		5
+#define CX_OUTPUT_MONO_DIFF_SHIFT	6
+#define CX_OUTPUT_AUTO_SHIFT		7
+
+#define CXREG_INPUT_CONTROL	0x101a
+#define CX_INPUT_LINE1_SHIFT	  0
+#define CX_INPUT_LINE2_SHIFT	  1
+#define CX_INPUT_LINE3_SHIFT	  2
+#define CX_INPUT_LINE1_DIFF_SHIFT 3
+#define CX_INPUT_AUTO_SHIFT	  7
+
+#define CXREG_LINE1_GAIN	0x101b
+#define CXREG_LINE2_GAIN	0x101c
+#define CXREG_LINE3_GAIN	0x101d
+#define CXREG_MIC_CONTROL	0x101e
+
+/* Volume control for all four mixer0(playback dsp) inputs */
+#define CXREG_MIX0_IN0_GAIN	0x101f
+#define CXREG_MIX0_IN1_GAIN	0x1020
+#define CXREG_MIX0_IN2_GAIN	0x1021
+#define CXREG_MIX0_IN3_GAIN	0x1022
+
+/* Volume control for all for mixer1(simple mixer) inputs */
+#define CXREG_MIX1_IN0_GAIN	0x1023
+#define CXREG_MIX1_IN1_GAIN	0x1024
+#define CXREG_MIX1_IN2_GAIN	0x1025
+#define CXREG_MIX1_IN3_GAIN	0x1026
+
+/* Streams routes and asrc */
+#define CXREG_STREAM1_RATE	0x116a
+#define CXREG_STREAM2_RATE	0x116b
+#define CXREG_STREAM2_ROUTE	0x116c
+#define CXREG_STREAM3_RATE	0X116d
+#define CXREG_STREAM3_ROUTE	0X116e
+#define CXREG_STREAM4_RATE	0X116f
+#define CXREG_STREAM4_ROUTE	0X1170
+#define CXREG_STREAM5_RATE	0x1171
+#define CXREG_STREAM6_RATE	0x1172
+#define CXREG_STREAM7_RATE	0x1173
+#define CXREG_STREAM8_RATE	0x1175
+
+#define CX_STREAM34_ROUTE_MASK	(BIT(3) | BIT(4) | BIT(5))
+#define CX_RATE_MASK		0x3f
+
+/* Main dsp settings, heart of codec control */
+#define CXREG_DSP_ENABLE	0x117a
+#define CXREG_DSP_ENABLE2	0x117b
+#define CXREG_DSP_INIT		0x117c
+#define CXREG_DSP_INIT_NEWC	0x117d
+
+#define CXREG_LOWER_POWER	0x117e
+#define CX_POWER_SLEEP_ON	BIT(7)
+#define CX_POWER_DEEP_SLEEP	BIT(6)
+#define CX_POWER_DSP_STALL	BIT(5)
+
+#define CXREG_DACIN_SOURCE	0x117f
+#define CXREG_DACSUBIN_SOURCE	0x1180
+#define CXREG_I2S1OUTIN_SOURCE	0X1181
+#define CXREG_USBOUT_SOURCE	0x1183
+#define CXREG_MIX0IN0_SOURCE	0x1184
+#define CXREG_MIX0IN1_SOURCE	0x1185
+#define CXREG_MIX0IN2_SOURCE	0x1186
+#define CXREG_MIX0IN3_SOURCE	0x1187
+#define CXREG_MIX1IN0_SOURCE	0x1188
+#define CXREG_MIX1IN1_SOURCE	0x1189
+#define CXREG_MIX1IN2_SOURCE	0x118a
+#define CXREG_MIX1IN3_SOURCE	0x118b
+#define CXREG_VOICEIN0_SOURCE	0x118c
+#define CXREG_I2S2OUTIN_SOURCE	0X118e
+#define CXREG_DMIC_CONTROL      0x1247
+#define CXREG_I2S_OPTION        0x1249
+#define CXREG_PATCH_HI          0x1584
+#define CXREG_PATCH_MED         0x1585
+#define CXREG_PATCH_LO          0x1586
+
+
+#endif
