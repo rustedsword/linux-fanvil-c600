@@ -270,12 +270,8 @@
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_nt99141>;
 
-		clocks = <&clks IMX6QDL_CLK_CKO1>;
+		clocks = <&clks IMX6QDL_CLK_CKO2>;
 		clock-names = "mclk";
-		assigned-clocks = <&clks IMX6QDL_CLK_CKO>,
-				  <&clks IMX6QDL_CLK_CKO1_SEL>;
-		assigned-clock-parents = <&clks IMX6QDL_CLK_CKO1>,
-					 <&clks IMX6QDL_CLK_VIDEO_27M>;
 
 		reset-gpios = <&gpio5 29 GPIO_ACTIVE_LOW>;
 		powerdown-gpios = <&gpio5 28 GPIO_ACTIVE_HIGH>;
